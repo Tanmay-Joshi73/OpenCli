@@ -43,17 +43,17 @@ export const Execute = (alias) => {
     if (!fs.existsSync(appsFile)) {
         fs.writeFileSync(appsFile, JSON.stringify({}), 'utf-8');
     }
-    if (!alias) {
+    if (!alias.toLowerCase()) {
         console.log("please provide the app name");
     }
     // 📖 Read existing data
     const fileData = fs.readFileSync(appsFile, 'utf-8');
     const apps = JSON.parse(fileData);
-    if (!(alias in apps)) {
+    if (!(alias.toLowerCase() in apps)) {
         console.log("First add the path of application");
         return;
     }
-    const path = apps[alias];
+    const path = apps[alias.toLowerCase()];
     //Running the application;
     execFile(path, (error) => {
         if (error) {
