@@ -8,13 +8,17 @@
   },
   "keywords": [],
   "author": "",
-  "type":"module",
+  "type": "module",
   "license": "ISC",
-  "bin":{
-    "open":"./dist/cmd.js"
+  "bin": {
+    "open": "./dist/cmd.js"
   },
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "cors": "^2.8.5",
+    "fs": "0.0.1-security",
+    "os": "^0.1.2",
+    "path": "^0.12.7"
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {Command} from "Commander";
-import Add from './add.js'
+import {Add,Show,Execute} from './add.js'
 const Program=new Command();
 Program
   .name('OpenApp')
@@ -19,5 +19,18 @@ Program.command('add')
     console.log(`📂 Received path: ${path}`);
     Add(alias, path); // <-- pass them to your Add() function
   });
+    //Program to show cli apps
+  Program.command('show')
+  .description('open list of given application')
+  .action(()=>{
+    Show()
+  })
+
+  Program.command('run')
+  .description('This run the appliactoin')
+  .argument('<alias>','Enter the application name')
+  .action((alias)=>{
+   Execute(alias)
+  })
 
   Program.parse()
