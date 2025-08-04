@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {Command} from "Commander";
-import {Add,Show,Execute} from './add.js'
+import {Add,Show,Execute,Delete,DeleteAll} from './add.js'
 const Program=new Command();
 Program
   .name('OpenApp')
@@ -20,7 +20,7 @@ Program.command('add')
     Add(alias, path); // <-- pass them to your Add() function
   });
     //Program to show cli apps
-  Program.command('show')
+  Program.command('list')
   .description('open list of given application')
   .action(()=>{
     Show()
@@ -32,5 +32,20 @@ Program.command('add')
   .action((alias)=>{
    Execute(alias)
   })
+
+  Program.command('remove')
+  .description('Delete application')
+  .argument('<alias>',"enter the application name")
+  .action((alias)=>{
+    Delete(alias)
+  })
+
+  
+Program.command('remove-all')
+  .description('Delete all saved app aliases')
+  .option('--force', 'Force delete without confirmation')
+  .action((options) => {
+    DeleteAll(options.force);
+  });
 
   Program.parse()

@@ -2,6 +2,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import {execFile} from "child_process"
+import readline from 'readline'
 const appsFile = path.join(os.homedir(), '.OpenAppThroughCli', 'path.json');
 
 // ✅ Ensure directory exists
@@ -75,4 +76,60 @@ export const Execute=(alias:string):void=>{
   });
 
 }
- 
+export const Delete=(alias:string):void=>{
+  if (!fs.existsSync(appsFile)) {
+    console.log("⚠️ No apps saved yet.");
+    return;
+  }
+
+  const data = fs.readFileSync(appsFile, 'utf-8');
+  const apps = JSON.parse(data);
+
+  const existingKey = Object.keys(apps).find(
+    (key) => key.toLowerCase() === alias.toLowerCase()
+  );
+
+  if (!existingKey) {
+    console.log(`❌ Alias '${alias}' not found.`);
+    return;
+  }
+
+  delete apps[existingKey];
+
+  fs.writeFileSync(appsFile, JSON.stringify(apps, null, 2), 'utf-8');
+
+  console.log(`🗑️ Deleted alias '${existingKey}'`);
+
+}
+
+export const DeleteAll = (force: boolean = false): void => {
+  if (!fs.existsSync(appsFile)) {
+    console.log("⚠️ No apps saved yet.");
+    return;
+  }
+
+  const clearAll = () => {
+    fs.writeFileSync(appsFile, JSON.stringify({}, null, 2), 'utf-8');
+    console.log("🧹 All aliases have been deleted.");
+  };
+
+  if (force) {
+    clearAll();
+    return;
+  }
+
+  // Ask for confirmation
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  rl.question("⚠️ Are you sure you want to delete ALL aliases? (y/N): ", (answer) => {
+    rl.close();
+    if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
+      clearAll();
+    } else {
+      console.log("❌ Cancelled.");
+    }
+  });
+};
