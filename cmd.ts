@@ -5,7 +5,7 @@ import {Add,Show,Execute,Delete,DeleteAll} from './add.js'
 const Program=new Command();
 Program
   .name('OpenApp')
-  .description('Automated Script To Open Application')
+  .description('🚀 Open your favorite apps from anywhere using short aliases')
   .version('0.8.0');
 
 
@@ -47,5 +47,17 @@ Program.command('remove-all')
   .action((options) => {
     DeleteAll(options.force);
   });
+Program.addHelpText('afterAll', `
+Examples:
+  $ open add postman "C:/Path/To/Postman.exe"
+  $ open run  postman
+  $ open list
+  $ open remove postman
+
+Tips:
+  - Use forward slashes (/) in paths.
+  - App data is stored in: ~/.start-o/apps.json
+  - Make sure the path points to a valid .exe or binary file.
+`);
 
   Program.parse()
