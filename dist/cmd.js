@@ -42,10 +42,10 @@ Program.command('remove-all')
 });
 Program.addHelpText('afterAll', `
 Examples:
-  $ open add postman "C:/Path/To/Postman.exe"
-  $ open run  postman
-  $ open list
-  $ open remove postman
+  $ frik add postman "C:/Path/To/Postman.exe"
+  $ frik run  postman
+  $ frik list
+  $ frik remove postman
 
 Tips:
   - Use forward slashes (/) in paths.
