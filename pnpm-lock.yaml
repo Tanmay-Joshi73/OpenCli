@@ -21,8 +21,15 @@ importers:
       path:
         specifier: ^0.12.7
         version: 0.12.7
+    devDependencies:
+      '@types/node':
+        specifier: ^24.2.0
+        version: 24.2.0
 
 packages:
+
+  '@types/node@24.2.0':
+    resolution: {integrity: sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==}
 
   commander@14.0.0:
     resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
@@ -52,6 +59,9 @@ packages:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
+  undici-types@7.10.0:
+    resolution: {integrity: sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==}
+
   util@0.10.4:
     resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
 
@@ -60,6 +70,10 @@ packages:
     engines: {node: '>= 0.8'}
 
 snapshots:
+
+  '@types/node@24.2.0':
+    dependencies:
+      undici-types: 7.10.0
 
   commander@14.0.0: {}
 
@@ -82,6 +96,8 @@ snapshots:
       util: 0.10.4
 
   process@0.11.10: {}
+
+  undici-types@7.10.0: {}
 
   util@0.10.4:
     dependencies:

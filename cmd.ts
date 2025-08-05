@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import {Command} from "Commander";
+import {Command} from "commander";
 import {Add,Show,Execute,Delete,DeleteAll} from './add.js'
 const Program=new Command();
 Program
