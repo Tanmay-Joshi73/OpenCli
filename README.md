@@ -37,12 +37,12 @@ frik add postman "C:/Users/yourname/AppData/Local/Postman/Postman.exe"
 ### 2. Launch the app using the alias
 
 ```bash
-frik open <alias>
+frik run <alias>
 ```
 
 #### Example:
 ```bash
-frik open postman
+frik run postman
 ```
 
 Boom 💥 — Postman opens instantly!
@@ -54,7 +54,7 @@ Boom 💥 — Postman opens instantly!
 | Command           | Description                                |
 |------------------|--------------------------------------------|
 | `frik add`        | Add a new app alias                        |
-| `frik open`       | Open the app associated with an alias      |
+| `frik run`       | Open the app associated with an alias      |
 | `frik list` _(optional)_ | List all saved aliases (if implemented) |
 | `frik remove` _(optional)_ | Remove an alias (if implemented)     |
 
@@ -84,7 +84,7 @@ Boom 💥 — Postman opens instantly!
 
 - `frik add chrome "C:/Program Files/Google/Chrome/Application/chrome.exe"`
 - `frik add vs "C:/Users/YourName/AppData/Local/Programs/Microsoft VS Code/Code.exe"`
-- `frik open vs` → launches VS Code in a flash
+- `frik run vs` → launches VS Code in a flash
 
 ---
 
