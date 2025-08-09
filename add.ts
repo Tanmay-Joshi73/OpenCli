@@ -133,3 +133,51 @@ export const DeleteAll = (force: boolean = false): void => {
     }
   });
 };
+
+export const Rename = async (alias: string): Promise<void> => {
+  if (!alias) {
+    console.log("❌ Please provide an alias.");
+    return;
+  }
+
+  if (!fs.existsSync(appsFile)) {
+    console.log("⚠️ No apps saved yet.");
+    return;
+  }
+
+  const fileData = fs.readFileSync(appsFile, 'utf-8');
+  const apps = JSON.parse(fileData);
+
+  const existingKey = Object.keys(apps).find(
+    (key) => key.toLowerCase() === alias.toLowerCase()
+  );
+
+  if (!existingKey) {
+    console.log(`❌ Alias '${alias}' not found.`);
+    return;
+  }
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  const askQuestion = (question: string): Promise<string> => {
+    return new Promise((resolve) => {
+      rl.question(question, (answer) => resolve(answer));
+    });
+  };
+
+  const newPath = await askQuestion(`✏️ Enter new path for '${existingKey}': `);
+  rl.close();
+
+  if (!newPath) {
+    console.log("❌ No path entered. Rename cancelled.");
+    return;
+  }
+
+  apps[existingKey] = newPath;
+  fs.writeFileSync(appsFile, JSON.stringify(apps, null, 2), 'utf-8');
+
+  console.log(`✅ Updated alias '${existingKey}' → ${newPath}`);
+};

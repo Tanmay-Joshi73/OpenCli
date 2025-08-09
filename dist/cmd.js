@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { Add, Show, Execute, Delete, DeleteAll } from './add.js';
+import { Add, Show, Execute, Delete, DeleteAll, Rename } from './add.js';
 const Program = new Command();
 Program
     .name('OpenApp')
@@ -33,6 +33,12 @@ Program.command('remove')
     .argument('<alias>', "enter the application name")
     .action((alias) => {
     Delete(alias);
+});
+Program.command('update')
+    .description('Update any path of application')
+    .argument('<alias>', 'enter application')
+    .action((alias) => {
+    Rename(alias);
 });
 Program.command('remove-all')
     .description('Delete all saved app aliases')
