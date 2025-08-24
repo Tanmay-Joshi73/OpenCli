@@ -22,11 +22,11 @@ export const Add = (alias, appPath) => {
     const fileData = fs.readFileSync(appsFile, 'utf-8');
     const apps = JSON.parse(fileData);
     //   ✅ Add or update alias
-    if (alias in apps) {
+    if (alias.toLowerCase() in apps) {
         console.log('hey alias is already present');
         return;
     }
-    apps[alias] = appPath;
+    apps[alias.toLowerCase()] = appPath;
     // 💾 Write back to file
     fs.writeFileSync(appsFile, JSON.stringify(apps, null, 2), 'utf-8');
     //   console.log(cls`✅ Added alias '${alias}' → ${appPath}`);
