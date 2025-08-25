@@ -5,7 +5,19 @@ import path from 'path';
 import {execFile} from "child_process"
 import readline from 'readline'
 import Table from "cli-table3";
+import Fuse from 'fuse.js'
 const appsFile = path.join(os.homedir(), '.OpenAppThroughCli', 'path.json');
+
+
+function addSuggestion(alias:string[],input:string):string | null{
+const fuse=new Fuse(alias,{
+   threshold: 0.4,
+})
+const result=fuse.search(input);
+  return result.length > 0 ? result[0].item : null;
+}
+
+
 
 // ✅ Ensure directory exists
 const dir = path.dirname(appsFile);
@@ -82,7 +94,14 @@ export const Execute=(alias:string):void=>{
     const fileData = fs.readFileSync(appsFile, 'utf-8');
     const apps = JSON.parse(fileData);
     if(!(alias.toLowerCase() in apps)){
-        console.log("First add the path of application")
+       const input=alias.toLowerCase();
+       const aliases = Object.keys(apps).map(a => a.toLowerCase())
+      
+       let suggestion:string | null =addSuggestion(aliases,input);
+       
+        if (suggestion) {
+      console.log(`💡 Did you mean: ${suggestion} ?`);
+    }
         return;
     }
     const path=apps[alias.toLowerCase()];
