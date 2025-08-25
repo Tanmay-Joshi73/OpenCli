@@ -1,8 +1,10 @@
 import fs from 'fs';
 import os from 'os';
+import chalk from "chalk";
 import path from 'path';
 import {execFile} from "child_process"
 import readline from 'readline'
+import Table from "cli-table3";
 const appsFile = path.join(os.homedir(), '.OpenAppThroughCli', 'path.json');
 
 // ✅ Ensure directory exists
@@ -15,7 +17,7 @@ if (!fs.existsSync(dir)) {
 export const Add = (alias: string, appPath: string): void => {
   // 🔒 If file doesn't exist, create it with empty object
   if(!alias || !appPath){
-    console.log("please provide the correct alias or appPath")
+    console.log(chalk.red("please provide the correct alias or appPath"))
   }
   if (!fs.existsSync(appsFile)) {
     fs.writeFileSync(appsFile, JSON.stringify({}), 'utf-8');
@@ -27,7 +29,7 @@ export const Add = (alias: string, appPath: string): void => {
 
 //   ✅ Add or update alias
 if(alias.toLowerCase() in apps){
-    console.log('hey alias is already present')
+    console.log(chalk.red("❌ Error: Alias already exists"));
     return;
 }
 
@@ -35,20 +37,39 @@ if(alias.toLowerCase() in apps){
 
   // 💾 Write back to file
   fs.writeFileSync(appsFile, JSON.stringify(apps, null, 2), 'utf-8');
-
-//   console.log(cls`✅ Added alias '${alias}' → ${appPath}`);
+console.log(chalk.green("✅ Added alias"));
 };
 
-export const Show=():void=>{
-     if (!fs.existsSync(appsFile)) {
-    fs.writeFileSync(appsFile, JSON.stringify({}), 'utf-8');
+export const Show = (): void => {
+  if (!fs.existsSync(appsFile)) {
+    fs.writeFileSync(appsFile, JSON.stringify({}), "utf-8");
   }
 
-  // 📖 Read existing data
-  const fileData = fs.readFileSync(appsFile, 'utf-8');
+  const fileData = fs.readFileSync(appsFile, "utf-8");
   const apps = JSON.parse(fileData);
-  console.log(apps)
-}
+
+  const aliases = Object.keys(apps);
+
+  if (aliases.length === 0) {
+    console.log(chalk.yellow("⚠️  No applications saved yet. Use `openapp add` to add one."));
+    return;
+  }
+
+  // Build table
+  const table = new Table({
+    head: [chalk.cyan("Alias"), chalk.cyan("Path")],
+    style: { head: [], border: ["grey"] }
+  });
+
+  aliases.forEach((alias) => {
+    table.push([chalk.green(alias), apps[alias]]);
+  });
+
+  console.log(chalk.bold("\n📂 Saved Applications:\n"));
+  console.log(table.toString());
+};
+
+
 
 export const Execute=(alias:string):void=>{
        if (!fs.existsSync(appsFile)) {
