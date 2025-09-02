@@ -2,10 +2,10 @@ import fs from 'fs';
 import os from 'os';
 import chalk from "chalk";
 import path from 'path';
-import { execFile } from "child_process";
 import readline from 'readline';
 import Table from "cli-table3";
 import Fuse from 'fuse.js';
+import { spawn } from 'child_process';
 const appsFile = path.join(os.homedir(), '.OpenAppThroughCli', 'path.json');
 function addSuggestion(alias, input) {
     const fuse = new Fuse(alias, {
@@ -84,13 +84,18 @@ export const Execute = (alias) => {
     }
     const path = apps[alias.toLowerCase()];
     //Running the application;
-    execFile(path, (error) => {
-        if (error) {
-            console.error(`❌ Failed to open app: ${error.message}`);
-            return;
-        }
-        console.log(`🚀 App launched: ${path}`);
+    //     execFile(path, (error:any) => {
+    //   if (error) {
+    //     console.error(`❌ Failed to open app: ${error.message}`);
+    //     return;
+    //   }
+    //   console.log(`🚀 App launched: ${path}`);
+    // });
+    const child = spawn(path, [], {
+        detached: true,
+        stdio: "ignore"
     });
+    child.unref();
 };
 export const Delete = (alias) => {
     if (!fs.existsSync(appsFile)) {

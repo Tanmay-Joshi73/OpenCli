@@ -6,6 +6,7 @@ import {execFile} from "child_process"
 import readline from 'readline'
 import Table from "cli-table3";
 import Fuse from 'fuse.js'
+import { spawn } from 'child_process';
 const appsFile = path.join(os.homedir(), '.OpenAppThroughCli', 'path.json');
 
 
@@ -107,13 +108,19 @@ export const Execute=(alias:string):void=>{
     const path=apps[alias.toLowerCase()];
   
     //Running the application;
-      execFile(path, (error:any) => {
-    if (error) {
-      console.error(`❌ Failed to open app: ${error.message}`);
-      return;
-    }
-    console.log(`🚀 App launched: ${path}`);
-  });
+  //     execFile(path, (error:any) => {
+  //   if (error) {
+  //     console.error(`❌ Failed to open app: ${error.message}`);
+  //     return;
+  //   }
+  //   console.log(`🚀 App launched: ${path}`);
+  // });
+  const child=spawn(path,[],{
+    detached:true,
+    stdio:"ignore"
+
+  })
+  child.unref()
 
 }
 export const Delete=(alias:string):void=>{
