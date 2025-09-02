@@ -120,7 +120,7 @@ export const Execute=(alias:string):void=>{
     stdio:"ignore"
 
   })
-  child.unref()
+  child.unref() //Spawan code allow the application to start as a independant not a child of a parent
 
 }
 export const Delete=(alias:string):void=>{
